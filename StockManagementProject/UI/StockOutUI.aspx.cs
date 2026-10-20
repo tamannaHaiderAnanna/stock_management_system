@@ -56,13 +56,28 @@ namespace StockManagementProject.UI
                 ItemsViewModels anItemsViewModels =
                     anItemsViewModelManager.GetItemsViewByIdAndCompany(Convert.ToInt32(itemDropDownList.SelectedValue),
                         Convert.ToInt32(companyDropDownList.SelectedValue));
-                availableQuantityTextBox.Text = anItemsViewModels.AvailableQuantity.ToString();
+                availableQuantityTextBox.Text = (anItemsViewModels.AvailableQuantity -
+                                                 QuantityInCart(anItemsViewModels.Id, anItemsViewModels.CompanyId)).ToString();
                 reOrderLevelTextBox.Text = anItemsViewModels.ReOrderLevel.ToString();
             }
             else
             {
                 Response.Write("<script>alert('" + ConstantMessage.invalid + "')</script>");
             }
+        }
+
+        // How many of this item are already in the cart, so the page shows (and checks against) what is left.
+        private int QuantityInCart(int itemId, int companyId)
+        {
+            int quantity = 0;
+            foreach (StockOut stockOut in (List<StockOut>)ViewState["ListVS"])
+            {
+                if (stockOut.ItemId == itemId && stockOut.CompanyId == companyId)
+                {
+                    quantity += stockOut.StockOutAmount;
+                }
+            }
+            return quantity;
         }
 
         protected void addButton_Click(object sender, EventArgs e)
