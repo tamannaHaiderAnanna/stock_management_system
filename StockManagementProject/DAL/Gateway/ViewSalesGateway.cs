@@ -13,7 +13,7 @@ namespace StockManagementProject.DAL.Gateway
         {
             List<StockOutViewModel> aStockOutViewModels = new List<StockOutViewModel>();
             string query =
-                "SELECT ItemName,CompanyName,SUM(StockOutQuantity) AS TotalSale FROM StockOutView WHERE StockOutType='Sell' AND Date BETWEEN @fromDate AND @toDAte Group By ItemName,CompanyName";
+                "SELECT ItemName,CompanyName,SUM(StockOutQuantity) AS TotalSale FROM StockOutView WHERE StockOutType='Sell' AND Date BETWEEN @fromDate AND @toDate Group By ItemName,CompanyName";
             Command= new SqlCommand(query,Connection);
             Command.Parameters.AddWithValue("@fromDate", fromDate);
             Command.Parameters.AddWithValue("@toDate", toDate);
