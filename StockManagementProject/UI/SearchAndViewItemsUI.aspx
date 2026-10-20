@@ -67,28 +67,28 @@
                 <Columns>
                                     <asp:TemplateField HeaderText="Item">
                     <ItemTemplate>
-                        <asp:Label  runat="server" Text='<%#Eval("ItemName")%>'></asp:Label>
+                        <asp:Label  runat="server" Text='<%#: Eval("ItemName")%>'></asp:Label>
          </ItemTemplate>
                     </asp:TemplateField>
                     </Columns>
                                 <Columns>
                                     <asp:TemplateField HeaderText="Company">
                     <ItemTemplate>
-                        <asp:Label  runat="server" Text='<%#Eval("CompanyName")%>'></asp:Label>
+                        <asp:Label  runat="server" Text='<%#: Eval("CompanyName")%>'></asp:Label>
          </ItemTemplate>
                     </asp:TemplateField>
                     </Columns>
                                 <Columns>
                                     <asp:TemplateField HeaderText="Quantity">
                     <ItemTemplate>
-                        <asp:Label  runat="server" Text='<%#Eval("AvailableQuantity")%>'></asp:Label>
+                        <asp:Label  runat="server" Text='<%#: Eval("AvailableQuantity")%>'></asp:Label>
          </ItemTemplate>
                     </asp:TemplateField>
                     </Columns>
                                                 <Columns>
                                     <asp:TemplateField HeaderText="ReOrderLevel">
                     <ItemTemplate>
-                        <asp:Label  runat="server" Text='<%#Eval("ReOrderLevel")%>'></asp:Label>
+                        <asp:Label  runat="server" Text='<%#: Eval("ReOrderLevel")%>'></asp:Label>
          </ItemTemplate>
                     </asp:TemplateField>
                     </Columns>

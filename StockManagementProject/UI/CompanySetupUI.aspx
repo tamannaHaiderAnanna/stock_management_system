@@ -63,7 +63,7 @@
                                     <Columns>
                 <asp:TemplateField HeaderText="Name">
                     <ItemTemplate>
-                        <asp:Label  runat="server" Text='<%#Eval("CompanyName")%>'></asp:Label>
+                        <asp:Label  runat="server" Text='<%#: Eval("CompanyName")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>

@@ -65,7 +65,7 @@
             <Columns>
                 <asp:TemplateField HeaderText="Name">
                     <ItemTemplate>
-                        <asp:Label  runat="server" Text='<%#Eval("CategoryName")%>'></asp:Label>   
+                        <asp:Label  runat="server" Text='<%#: Eval("CategoryName")%>'></asp:Label>   
                     </ItemTemplate>
                 </asp:TemplateField>
                 </Columns>
@@ -74,7 +74,7 @@
                 <asp:TemplateField HeaderText="Action">            
                     <ItemTemplate>
                         <asp:LinkButton ID="updateLinkButton" runat="server" OnClick="updateLinkButton_Click">Update</asp:LinkButton>
-                          <asp:HiddenField ID="idHiddenfield" runat="server" Value='<%#Eval("Id")%>' />   
+                          <asp:HiddenField ID="idHiddenfield" runat="server" Value='<%#: Eval("Id")%>' />   
                     </ItemTemplate>
                 </asp:TemplateField>
                 </Columns>
