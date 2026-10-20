@@ -137,61 +137,40 @@ namespace StockManagementProject.UI
 
         protected void sellButton_Click(object sender, EventArgs e)
         {
-            List<StockOut> aList = new List<StockOut>();
-            aList=(List<StockOut>)ViewState["ListVS"];
-            foreach (StockOut stock in aList)
-            {
-                stock.StockOutType = "Sell";
-            }
-            string message = aStockOutManager.Save(aList);
-            List<StockOut> allStockOuts = new List<StockOut>();
-            ViewState["ListVS"] = allStockOuts;
-            Response.Write("<script>alert('" + message + "')</script>");
-            stockOutGridView.DataSource = null;
-            stockOutGridView.DataBind();
-           ItemsViewModels updatedItemsViewModels= anItemsViewModelManager.GetItemsViewByIdAndCompany(Convert.ToInt32(itemDropDownList.SelectedValue),
-                Convert.ToInt32(companyDropDownList.SelectedValue));
-            availableQuantityTextBox.Text = updatedItemsViewModels.AvailableQuantity.ToString();
-            stockOutQuantityTextBox.Text=String.Empty;
-
-
+            SaveStockOut("Sell");
         }
 
         protected void damageButton_Click(object sender, EventArgs e)
         {
-            List<StockOut> aList = ViewState["ListVS"] as List<StockOut>;
-            foreach (StockOut stock in aList)
-            {
-                stock.StockOutType = "Damage";
-            }
-            string message = aStockOutManager.Save(aList);
-            List<StockOut> allStockOuts = new List<StockOut>();
-            ViewState["ListVS"] = allStockOuts;
-            Response.Write("<script>alert('" + message + "')</script>");
-            stockOutGridView.DataSource = null;
-            stockOutGridView.DataBind();
-            ItemsViewModels updatedItemsViewModels = anItemsViewModelManager.GetItemsViewByIdAndCompany(Convert.ToInt32(itemDropDownList.SelectedValue),
-     Convert.ToInt32(companyDropDownList.SelectedValue));
-            availableQuantityTextBox.Text = updatedItemsViewModels.AvailableQuantity.ToString();
-            stockOutQuantityTextBox.Text = String.Empty;
+            SaveStockOut("Damage");
         }
 
         protected void lostButton_Click(object sender, EventArgs e)
         {
-            List<StockOut> aList = ViewState["ListVS"] as List<StockOut>;
+            SaveStockOut("Lost");
+        }
+
+        // Saves the whole cart as one stock out of the given type (Sell, Damage or Lost), then empties the cart.
+        private void SaveStockOut(string stockOutType)
+        {
+            List<StockOut> aList = (List<StockOut>)ViewState["ListVS"];
             foreach (StockOut stock in aList)
             {
-                stock.StockOutType = "Lost";
+                stock.StockOutType = stockOutType;
             }
             string message = aStockOutManager.Save(aList);
-            List<StockOut> allStockOuts = new List<StockOut>();
-            ViewState["ListVS"] = allStockOuts;
-            Response.Write("<script>alert('" + message + "')</script>");
+            ViewState["ListVS"] = new List<StockOut>();
+            // The message can contain an item name, so encode it for the JavaScript string.
+            Response.Write("<script>alert('" + HttpUtility.JavaScriptStringEncode(message) + "')</script>");
             stockOutGridView.DataSource = null;
             stockOutGridView.DataBind();
-            ItemsViewModels updatedItemsViewModels = anItemsViewModelManager.GetItemsViewByIdAndCompany(Convert.ToInt32(itemDropDownList.SelectedValue),
-     Convert.ToInt32(companyDropDownList.SelectedValue));
-            availableQuantityTextBox.Text = updatedItemsViewModels.AvailableQuantity.ToString();
+            if (companyDropDownList.SelectedValue != ConstantMessage.selectMessage &&
+                itemDropDownList.SelectedValue != ConstantMessage.selectMessage)
+            {
+                ItemsViewModels updatedItemsViewModels = anItemsViewModelManager.GetItemsViewByIdAndCompany(Convert.ToInt32(itemDropDownList.SelectedValue),
+                    Convert.ToInt32(companyDropDownList.SelectedValue));
+                availableQuantityTextBox.Text = updatedItemsViewModels.AvailableQuantity.ToString();
+            }
             stockOutQuantityTextBox.Text = String.Empty;
         }
     }

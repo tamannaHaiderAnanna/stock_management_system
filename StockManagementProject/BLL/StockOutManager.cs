@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using StockManagementProject.DAL.Gateway;
 using StockManagementProject.DAL.Models;
+using StockManagementProject.DAL.Models.ViewModels;
 using StockManagementProject.Utility;
 
 namespace StockManagementProject.BLL
@@ -12,16 +13,20 @@ namespace StockManagementProject.BLL
     public class StockOutManager
     {
         StockOutGateway aStockOutGateway = new StockOutGateway();
-        StockInGateway aStockInGateway = new StockInGateway();
+        ItemsViewModelGateway anItemsViewModelGateway = new ItemsViewModelGateway();
         public string Save(List<StockOut> aList)
         {
-            int rowEffect1 = aStockOutGateway.Save(aList);
-            int rowEffect2 = aStockInGateway.StockInDelete(aList);
-            if (rowEffect1 > 0&&rowEffect2>0)
+            if (aList.Count == 0)
             {
-                return ConstantMessage.stockOut;
+                return ConstantMessage.invalid;
             }
-            return ConstantMessage.invalid;
+            StockOut notEnough = aStockOutGateway.Save(aList);
+            if (notEnough != null)
+            {
+                ItemsViewModels anItem = anItemsViewModelGateway.GetItemsViewByIdAndCompany(notEnough.ItemId, notEnough.CompanyId);
+                return string.Format(ConstantMessage.notEnoughStock, notEnough.ItemName, anItem.AvailableQuantity);
+            }
+            return ConstantMessage.stockOut;
         }
     }
 }

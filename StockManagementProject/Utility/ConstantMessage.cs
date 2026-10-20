@@ -14,6 +14,7 @@ namespace StockManagementProject.Utility
         public static string negative = "Negative Value is Not Allowed";
         public static string selectMessage = "-SELECT-";
         public static string stockOut = "Successfully Stocked Out";
+        public static string notEnoughStock = "Not enough {0} in stock: only {1} left. Nothing was saved.";
 
 
     }

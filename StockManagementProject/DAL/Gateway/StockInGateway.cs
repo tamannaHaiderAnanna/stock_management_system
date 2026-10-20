@@ -24,23 +24,5 @@ namespace StockManagementProject.DAL.Gateway
             return rowEffect;
 
         }
-
-        public int StockInDelete(List<StockOut> aList)
-        {
-            int rowEffect = 0;
-            foreach (StockOut stockOut in aList)
-            {
-                string query = "UPDATE Items SET AvailableQuantity=AvailableQuantity-@stockOut WHERE ItemName=@itemName AND CompanyId=@companyId";
-                Command = new SqlCommand(query,Connection);
-                Command.Parameters.AddWithValue("@stockOut", stockOut.StockOutAmount);
-                Command.Parameters.AddWithValue("@itemName", stockOut.ItemName);
-                Command.Parameters.AddWithValue("@companyId", stockOut.CompanyId);
-                Connection.Open();
-                rowEffect = Command.ExecuteNonQuery();
-                Connection.Close();
-
-            }
-            return rowEffect;
-        }
     }
 }
